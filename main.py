@@ -1,8 +1,12 @@
 import requests
 import xlsxwriter
+import webbrowser
+import time
+
+from xlsx2html import xlsx2html
+
 
 from bs4 import BeautifulSoup
-
 
 def checkRating(stars):
     countStars = len(stars)
@@ -42,6 +46,12 @@ def writing(nameList,imageList,linkList,priceList,ratingList,codeList):
     worksheet.autofit()
     workbook.close()
     print('Данные записаны в output.xlsx')
+
+    xlsx2html('output.xlsx', 'output.html')
+
+    webbrowser.open_new_tab('output.html')
+
+    time.sleep(20)
 def parse(url):
     # url = 'https://www.cifrus.ru/catalog/smartfony'
     nameList, imageList, linkList, priceList, ratingList, codeList = [], [], [], [], [], []
@@ -84,6 +94,7 @@ def parse(url):
     writing(nameList, imageList, linkList, priceList, ratingList, codeList)
 def main():
     parse('https://www.cifrus.ru/ajax/sorting.php?id_r=1&id_r3=25&csol=price+asc&id_rs=&start=0&limit=120')
+
 
 
 
